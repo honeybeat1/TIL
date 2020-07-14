@@ -29,8 +29,10 @@ allow you to read the text available on a fd one line at a time
 
 EOF = end of file;
 
+
 ---
 ## Static Variable
+> 참고 : 윤성우의 열혈 C 프로그래밍
 ### 지역 변수 (local variable)
 
 - 해당 선언문이 실행될 때 메모리 공간에 할당 되었다가, 선언문이 존재하는 함수가 반환을 하면 (종료 되면) 메모리 공간에서 소멸된다
