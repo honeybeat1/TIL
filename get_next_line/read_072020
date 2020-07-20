@@ -1,0 +1,54 @@
+파일의 내용을 읽어보자
+
+`fopen()` → `fgets()` / `fread()` → `fclose()`
+
+파일을 읽을 때는 `fopen` 함수로 파일을 열어서 **파일 포인터**를 얻은 뒤
+
+`fgets` 혹은 `fread` 함수로 파일의 내용을 읽는다. `stdio.h` 헤더에 선언되어 있음.
+
+```c
+fgets(buffer, sizeof(buffer), fp) //file pointer
+char *fgets(char *_Buffer, int _MaxCount, FILE *_Stream);
+// -> 성공하면 읽은 문자열의 포인터를 반환, 실패하면 NULL
+fgets(buffer, sizeof(buffer), stdin) // 표준입력에서 버퍼 사이즈만큼 문자열 읽기
+```
+
+buffer → 파일을 읽을 때 사용할 임시 공간 (0으로 초기화)
+
+```c
+fread(buffer, 읽기 크기, 읽기 횟수, 파일 포인터);
+fread(buffer, sizeof(buffer), 1, fp);
+size_t fread(void *_Buffer, size_t _ElementSize, size_t _ElementCount, File *_Stream);
+//-> 성공하면 읽기 횟수를 반환, 실패하면 지정된 읽기 횟수보다 작은 값 반환
+```
+
+파일을 읽는 크기 → 읽기 크기 * 읽기 횟수
+
+`fread` 는 `fgets` 와 달리 \n이 있든 없든 무조건 지정된 크기 만큼 읽음. 
+
+file read 말고 그냥 read도 있음.
+
+얘는 `#include <unistd.h>` 
+
+```c
+ssize_t read(int fildes, void *buf, size_t nbytes)
+```
+
+ssize_t → ???
+
+리턴값) **number of bytes that were read**. if the value is negative, then the system call returned an error. 
+
+그럼 읽는 함수는? open?
+
+```c
+int open(const char *path, int oflags);
+//return the fd for the new file. 
+//0보다 큰 the smallest integer that is still available
+int filedesc = open("testfile.txt", O_WRONLY | O_APPEND);
+```
+
+flags → read only, read/write, etc
+
+O_RDONLY, O_WRONLY, O_RDWR
+
+O_APPEND → append new info to the end of the line.
