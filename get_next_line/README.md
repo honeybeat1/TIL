@@ -20,7 +20,7 @@ int get_next_line(int fd, char **line);
 
 #### return value
 
-1 : 성공적으로 읽음
-0 : EOF has been reached (end of file)
+1 : 성공적으로 읽음  
+0 : EOF has been reached (end of file)  
 -1 : error
 
