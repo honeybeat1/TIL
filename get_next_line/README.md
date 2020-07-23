@@ -1,6 +1,8 @@
 ## Get_next_line
-> 목적 : fd로 read하고 새로운 newline을 리턴하라.  
-> code that returns a line ending with a newline, read from a file descriptor
+> 목적 : fd를 read하고 새로운 newline을 리턴하라.  
+> code that returns a line ending with a newline, read from a file descriptor  
+> allow you to read the text available **on a fd one line at a time**
+
 
 ### 배워야 할 것
 
@@ -22,4 +24,3 @@ int get_next_line(int fd, char **line);
 0 : EOF has been reached (end of file)
 -1 : error
 
-allow you to read the text available on a fd one line at a time
