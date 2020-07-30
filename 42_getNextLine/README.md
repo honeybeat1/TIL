@@ -24,3 +24,6 @@ int get_next_line(int fd, char **line);
 0 : EOF has been reached (end of file)  
 -1 : error
 
+#### 새로 배운 것들
+1. `memory leak` - malloc 된 문자열은 모두 free 해줘야 한다.
+2. 포인터를 `free`해주면 쓰레기 값이 담긴다. 따라서 0으로 초기화 해야 함.
