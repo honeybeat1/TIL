@@ -24,8 +24,6 @@ int get_next_line(int fd, char **line);
 0 : EOF has been reached (end of file)  
 -1 : error
 
-#### 유의해야 하는 것들
+#### 새로 배운 것들
 1. `memory leak` - malloc 된 문자열은 모두 free 해줘야 한다.
 2. 포인터를 `free`해주면 쓰레기 값이 담긴다. 따라서 0으로 초기화 해야 함.
-3. `fd < 0` 파일 디스크립터 값이 음수이거나, `line == 0` line이 가리키는 값이 없던가 
-  `(read(fd, buf, 0) < 0)`읽을 값이 없거나 에러거나 `BUFFER_SIZE < 1` 담을 버퍼 사이즈가 0 이하면 바로 `return (-1);` 

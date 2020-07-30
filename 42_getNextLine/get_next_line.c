@@ -14,13 +14,16 @@
 
 int get_next_line(int fd, char **line)
 {
-    char buf[14];
+    char buf[BUFFER_SIZE + 1];
     static char *s_rest;
     int n_bytes; //읽은 바이트 수
     char *piece;
     char *find_nl;
     char *temp;
+    char *temp2;
 
+    if (fd < 0 || line == NULL || read(fd, buf, 0) < 0 || BUFFER_SIZE < 1)
+        return (-1);
     if (!(*line = ft_strdup("")))
         return (-1);
     if (s_rest)
@@ -32,8 +35,9 @@ int get_next_line(int fd, char **line)
             *line = ft_strjoin(*line, piece);
             free(temp);
             free(piece);
-            free(s_rest); //여기서 해주는 이유?
+            temp2 = s_rest;
             s_rest = ft_strdup(find_nl + 1);
+            free(temp2);
             return (1);
         }
         else
@@ -45,10 +49,9 @@ int get_next_line(int fd, char **line)
             s_rest = 0; //free해주면 쓰레기값이 들어가기때문에 0으로 초기화 보통 포인터 free해주면 초기화해줌
         }
     }
-    while ((n_bytes = read(fd, buf, 13)) > 0) //읽을 게 있다면
+    while ((n_bytes = read(fd, buf, BUFFER_SIZE)) > 0) //읽을 게 있다면
     {
         buf[n_bytes] = '\0'; //읽어온 문자열 마지막 null로 닫아주고
-        //printf("%s\n", buf);
         if ((find_nl = ft_strchr(buf, '\n')) != 0)
         {
             piece = ft_substr(buf, 0, find_nl - buf);
@@ -70,15 +73,15 @@ int get_next_line(int fd, char **line)
     return (0);
 }
 
-int main(void)
-{
-    char *line = 0;
-    while (get_next_line(0, &line) > 0)
-    {
-        printf("%s\n", line);
-        free(line);
-    }
-    printf("%s\n", line);
-    free(line);
-    return (0);
-}
+// int main(void)
+// {
+//     char *line = 0;
+//     while (get_next_line(0, &line) > 0)
+//     {
+//         printf("%s\n", line);
+//         free(line);
+//     }
+//     printf("%s\n", line);
+//     free(line);
+//     return (0);
+// }

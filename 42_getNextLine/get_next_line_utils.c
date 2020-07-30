@@ -33,7 +33,7 @@ char    *ft_strchr(char *s, int c)
     // if (c == '\0')
     //     return (temp);
     // else
-    //     return (NULL);
+    // return (NULL);
     if (s == 0)
         return (0);
     while (*s != c)
