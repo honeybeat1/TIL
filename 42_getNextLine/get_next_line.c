@@ -9,79 +9,99 @@
 /*   Updated: 2020/07/23 23:29:52 by dachung          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+	
 #include "get_next_line.h"
 
-int get_next_line(int fd, char **line)
+int		if_find_nl_yes(char *buf, char **s_rest, char *find_nl, char **line)
 {
-    char buf[BUFFER_SIZE + 1];
-    static char *s_rest;
-    int n_bytes; //읽은 바이트 수
-    char *piece;
-    char *find_nl;
-    char *temp;
-    char *temp2;
+	char	*piece;
+	char	*temp;
 
-    if (fd < 0 || line == NULL || read(fd, buf, 0) < 0 || BUFFER_SIZE < 1)
-        return (-1);
-    if (!(*line = ft_strdup("")))
-        return (-1);
-    if (s_rest)
-    {
-        if ((find_nl = ft_strchr(s_rest, '\n')) != 0)
-        {
-            piece = ft_substr(s_rest, 0, find_nl - s_rest);
-            temp = *line;
-            *line = ft_strjoin(*line, piece);
-            free(temp);
-            free(piece);
-            temp2 = s_rest;
-            s_rest = ft_strdup(find_nl + 1);
-            free(temp2);
-            return (1);
-        }
-        else
-        {
-            temp = *line;
-            *line = ft_strdup(s_rest);
-            free(temp);
-            free(s_rest);
-            s_rest = 0; //free해주면 쓰레기값이 들어가기때문에 0으로 초기화 보통 포인터 free해주면 초기화해줌
-        }
-    }
-    while ((n_bytes = read(fd, buf, BUFFER_SIZE)) > 0) //읽을 게 있다면
-    {
-        buf[n_bytes] = '\0'; //읽어온 문자열 마지막 null로 닫아주고
-        if ((find_nl = ft_strchr(buf, '\n')) != 0)
-        {
-            piece = ft_substr(buf, 0, find_nl - buf);
-            temp = *line;
-            *line = ft_strjoin(*line, piece);
-            s_rest = ft_strdup(find_nl + 1); //뉴라인 가리키는 포인터 이동
-            //printf("중간 : %s end\n", s_rest);
-            free(temp); //free 해주려고 
-            free(piece);
-            return(1);
-        }
-        else
-        {
-            temp = *line;
-            *line = ft_strjoin(*line, buf);
-            free(temp);
-        }
-    }
-    return (0);
+	piece = ft_substr(buf, 0, find_nl - buf);
+	temp = *line;
+	*line = ft_strjoin(*line, piece);
+	free(temp);
+	free(piece);
+	temp = *s_rest;
+	*s_rest = ft_strdup(find_nl + 1);
+	free(temp);
+	return(1);
 }
 
-// int main(void)
-// {
-//     char *line = 0;
-//     while (get_next_line(0, &line) > 0)
-//     {
-//         printf("%s\n", line);
-//         free(line);
-//     }
-//     printf("%s\n", line);
-//     free(line);
-//     return (0);
-// }
+void	   if_find_nl_no(char *buf, char **line)
+{
+	char	*temp;
+	
+	temp = *line;
+	*line = ft_strjoin(*line, buf);
+	free(temp);
+}
+
+int		 if_buf(int fd, char *buf, char **s_rest, char **line)
+{
+	int		n_bytes;
+	char	*find_nl;
+
+	while ((n_bytes = read(fd, buf, BUFFER_SIZE)) > 0)
+	{
+		buf[n_bytes] = '\0';
+		if ((find_nl = ft_strchr(buf, '\n')) != 0)
+		{
+			if_find_nl_yes(buf, s_rest, find_nl, line);
+			return(1);
+		}
+		else
+			if_find_nl_no(buf, line);
+	}
+	return (0);
+}
+
+int		if_s_rest(char *buf, char **s_rest, char **line)
+{
+	char	*find_nl;
+	
+	if ((find_nl = ft_strchr(*s_rest, '\n')) != 0)
+	{
+		if_find_nl_yes(buf, s_rest, find_nl, line);
+		return (1);
+	}
+	else
+	{
+		if_find_nl_no(*s_rest, line);
+		free(*s_rest);
+		*s_rest = 0;
+	}
+	return (0);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	char			buf[BUFFER_SIZE + 1];
+	static char	 	*s_rest;
+
+	if (fd < 0 || line == NULL || read(fd, buf, 0) < 0 || BUFFER_SIZE < 1)
+		return (-1);
+	if (!(*line = ft_strdup("")))
+		return (-1);
+	if (s_rest)
+	{
+		if(if_s_rest(buf, &s_rest, line) == 1)
+			return (1);
+	}
+	if (if_buf(fd, buf, &s_rest, line) == 1)
+		return (1);
+	return (0);
+}
+
+int main(void)
+{
+	char *line = 0;
+	while (get_next_line(0, &line) > 0)
+	{
+		printf("%s\n", line);
+		free(line);
+	}
+	printf("%s\n", line);
+	free(line);
+	return (0);
+}
