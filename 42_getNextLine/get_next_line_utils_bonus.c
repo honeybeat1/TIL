@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dachung <dachung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sejong_the_great <sejong_the_great@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 23:29:40 by dachung           #+#    #+#             */
-/*   Updated: 2020/07/23 23:29:52 by dachung          ###   ########.fr       */
+/*   Updated: 2020/08/05 20:41:22 by sejong_the_      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int		ft_strlen(const char *s)
 {

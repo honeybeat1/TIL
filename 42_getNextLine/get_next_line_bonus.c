@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dachung <dachung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sejong_the_great <sejong_the_great@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 23:29:40 by dachung           #+#    #+#             */
-/*   Updated: 2020/07/23 23:29:52 by dachung          ###   ########.fr       */
+/*   Updated: 2020/08/05 21:18:34 by sejong_the_      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int		if_find_nl_yes(char *buf, char **s_rest, char *find_nl, char **line)
 {
@@ -85,18 +85,39 @@ int		if_s_rest(char *buf, char **s_rest, char **line)
 int		get_next_line(int fd, char **line)
 {
 	char			buf[BUFFER_SIZE + 1];
-	static char		*s_rest;
+	static char		*s_rest[OPEN_MAX];
 
 	if (fd < 0 || line == NULL || read(fd, buf, 0) < 0 || BUFFER_SIZE < 1)
 		return (-1);
 	if (!(*line = ft_strdup("")))
 		return (-1);
-	if (s_rest)
+	if (s_rest[fd])
 	{
-		if (if_s_rest(buf, &s_rest, line) == 1)
+		if (if_s_rest(buf, &s_rest[fd], line) == 1)
 			return (1);
 	}
-	if (if_buf(fd, buf, &s_rest, line) == 1)
+	if (if_buf(fd, buf, &s_rest[fd], line) == 1)
 		return (1);
 	return (0);
 }
+
+// int		main(void)
+// {
+// 	int	fd1;
+// 	int	fd2;
+// 	char *line;
+
+// 	fd1 = open("test.txt", O_RDONLY);
+// 	fd2 = open("abcde.txt", O_RDONLY);
+// 	line = 0;
+// 	while (get_next_line(fd1, &line) > 0)
+// 	{
+// 		printf("%s\n", line);
+// 		get_next_line(fd2, &line);
+// 		printf("%s\n", line);
+// 		free(line);
+// 	}
+// 	get_next_line(0, &line);
+// 	free(line);
+// 	return (0);
+// }

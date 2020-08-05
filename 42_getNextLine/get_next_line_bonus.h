@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dachung <dachung@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: sejong_the_great <sejong_the_great@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 23:29:07 by dachung           #+#    #+#             */
-/*   Updated: 2020/07/23 23:37:50 by dachung          ###   ########.fr       */
+/*   Updated: 2020/08/05 21:01:34 by sejong_the_      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
+# include <limits.h>
+# include <fcntl.h>
 
 int		get_next_line(int fd, char **line);
 int		ft_strlen(const char *s);
