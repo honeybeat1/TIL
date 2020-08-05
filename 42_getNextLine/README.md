@@ -27,3 +27,4 @@ int get_next_line(int fd, char **line);
 #### 새로 배운 것들
 1. `memory leak` - malloc 된 문자열은 모두 free 해줘야 한다.
 2. 포인터를 `free`해주면 쓰레기 값이 담긴다. 따라서 0으로 초기화 해야 함.
+3. 널 포인터를 free 해주면 에러가 난다. (아무것도 안담긴 s_rest를 temp에 넣고 free 해줬었음..) > 이 때 테스터를 돌리니까 malloc can't allocate region 에러가 났었음. 
