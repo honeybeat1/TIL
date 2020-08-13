@@ -55,9 +55,9 @@ var app = http.createServer(function(request,response){
 				response.end(template); //원하는 정보 출력
 			})
 		} else {
-			fs.readdir('./data', function(err, filelist){
-				var list = templateList(filelist);
+			fs.readdir('./data', function(err, filelist){				
 				fs.readFile(`data/${title}`, 'utf8', function(err, description){
+					var list = templateList(filelist);
 					var template = templateHTML(title, list,`<h2>${title}</h2>${description}`); 
 					response.writeHead(200);
 					response.end(template);
