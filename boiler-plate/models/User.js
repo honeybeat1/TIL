@@ -1,4 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const userSchema = mongoose.Schema({
 	name: {
@@ -31,6 +33,23 @@ const userSchema = mongoose.Schema({
 	}
 })
 
+userSchema.pre('save', function(next){
+	var user = this;
+	//password가 수정된 경우에만
+	if(user.isModified('password')) {
+	//비밀번호를 암호화 시킨다
+		bcrypt.genSalt(saltRounds, function(err, salt){
+			if(err) return next(err) //에러가 나면 바로 save메소드로 보내라
+			bcrypt.hash(user.password, salt, function(err, hash){
+			if(err) return next(err)
+			user.password = hash
+			next()
+			})
+		})
+	}
+	else {
+		next()
+	}
+})
 const User = mongoose.model('User', userSchema)
-
 module.exports = { User }
