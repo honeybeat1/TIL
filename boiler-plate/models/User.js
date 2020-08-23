@@ -1,3 +1,6 @@
+//유저 모델에서 => 화살표함수 사용하지 않는 이유
+//화살표 함수는 this를 바인딩 하지 않아서 User의 다큐멘트를 가질 수 없다
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -51,5 +54,17 @@ userSchema.pre('save', function(next){
 		next()
 	}
 })
+
+//login하는 부분에 있는 함수 comparePassword 정의
+userSchema.methods.comparePassword = function(plainPassword, cb){
+	//plainPassword 123456  암호화된 비밀번호 $2b$10$6xrG3PghXIdrw0AhhIbGP.JWh6q6UvBOhz5HzKQooWM7DSAaK5yGC
+	bcrypt.compare(plainPassword, this.password, function(err, isMatch){
+		if(err) return cb(err); //비밀번호가 같지 않다 
+		cb(null, isMatch); //isMatch == true
+	})
+}
+
+
+
 const User = mongoose.model('User', userSchema)
 module.exports = { User }
