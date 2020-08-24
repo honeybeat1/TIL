@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 const { User } = require('./models/User');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const config = require('./config/key');
 
 //application/x-www-form-urlencoded 형태로 된 데이터를 분석해서 가져올 수 있게 하는 옵션
@@ -43,8 +44,12 @@ app.post('/login', (req, res) => {
 			if(!isMatch)
 				return res.json({ loginSuccess : false, message : "비밀번호가 틀렸습니다."})
 			//비밀번호까지 맞다면 토큰을 생성하기
-			user.generateToken((err, user) => {
-				
+			userInfo.generateToken((err, user) => { //파라미터 user는 user.save()함수에서 cb로 받아온 user값
+				if(err) return res.status(400).send(err);
+				//token을 저장한다. 어디에? 쿠키, 로컬 스토리지, 세션 등에 저장 가능
+				res.cookie("x_auth", user.token)
+					.status(200)
+					.json({ loginSuccess : true, userId : user._id})
 			})
 		})
 	})
