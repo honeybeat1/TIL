@@ -18,7 +18,32 @@ mongoose.connect(config.mongoURI, {
   .catch(err => console.log("Error"))
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+	//var book_info = select * check_out where user = this.user;
+	var book_info = {
+		title: "열혈 C언어",
+		author: "저자",
+		user: "jbeen",
+		bookstatus: "정상 (dachung)",
+		due_date: "2020-08-31"
+	}
+
+	var template = `
+	<!doctype html>
+	<html>
+	<head>
+	  <title>Test</title>
+	  <meta charset="utf-8">
+	</head>
+	<body>
+		<h5>${book_info.title}</h5>
+		<button>deactive</button>
+		<button>반납</button>
+	</body>
+	</html>
+	`;
+	res.writeHead(200);
+	res.end(template);
+	// res.send(book_info);
 })
 
 app.post('/register', (req, res) => {
